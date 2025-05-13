@@ -1,0 +1,41 @@
+name: Atualizar IP no WAF
+
+on:
+  workflow_dispatch:
+    inputs:
+      ip_address:
+        description: 'IP a ser adicionado ou removido'
+        required: true
+      action:
+        description: 'add or rem'
+        required: true
+        default: 'add'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  update-ip:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Instala dependências
+        run: |
+          pip install -r requirements.txt
+
+      - name: Atualiza IPSet no WAF
+        env:
+          WAF_IPSET_ID: ${{ secrets.AWS_WAF_IPSET_ID }}
+          WAF_IPSET_NAME: ${{ secrets.AWS_WAF_IPSET_NAME }}
+        run: |
+          python scripts/update_ipset.py "${{ github.event.inputs.ip_address }}" "${{ github.event.inputs.action }}"
