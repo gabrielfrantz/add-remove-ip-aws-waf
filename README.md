@@ -14,7 +14,7 @@ Este repositório automatiza a inclusão ou remoção de endereços IP em um **I
 
 Script em Python que:
 - Lê os IPs atuais cadastrados no IPSet do WAF.
-- Adiciona ou remove um IP individual (`/32`) conforme o parâmetro fornecido.
+- Adiciona ou remove um IP conforme o parâmetro fornecido (CIDR).
 - Atualiza o IPSet com o novo conjunto de endereços.
 
 ### `.github/workflows/update-waf.yml`
@@ -90,5 +90,5 @@ Acessar settings > environments > SEU-AMBIENTE > secrets > add environment secre
 ## Como usar
 Vá até a aba Actions do repositório e execute o workflow `Atualizar IP no WAF`
 Insira as seguintes informações:
-- `ip_address`: ex: 192.168.0.1
+- `ip_address`: ex: 192.168.0.1/32 (sempre com o barramento)
 - `action`: add ou rem (`add` para adicionar um IP e `rem` para remover um IP)
