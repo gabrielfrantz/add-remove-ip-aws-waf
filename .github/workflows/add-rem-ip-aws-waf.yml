@@ -39,4 +39,4 @@ jobs:
           WAF_IPSET_ID: ${{ secrets.AWS_WAF_IPSET_ID }}
           WAF_IPSET_NAME: ${{ secrets.AWS_WAF_IPSET_NAME }}
         run: |
-          python scripts/update_ipset.py "${{ github.event.inputs.ip_address }}" "${{ github.event.inputs.action }}"
+          python update_ipset.py "${{ github.event.inputs.ip_address }}" "${{ github.event.inputs.action }}"
