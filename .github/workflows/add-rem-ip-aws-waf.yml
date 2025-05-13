@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       ip_address:
-        description: 'IP a ser adicionado ou removido'
+        description: 'IP a ser adicionado ou removido com o barramento (ex: 192.168.0.1/32)'
         required: true
       action:
         description: 'add or rem'
