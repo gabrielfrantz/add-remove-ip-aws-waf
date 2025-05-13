@@ -7,8 +7,8 @@ action = sys.argv[2]      # add ou remove
 region_name=os.environ['AWS_REGION'] # Use sua região
 
 waf = boto3.client('wafv2', region_name)  
-ip_set_id = os.environ['AWS_WAF_IPSET_ID']
-ip_set_name = os.environ['AWS_WAF_IPSET_NAME']
+ip_set_id = os.environ['WAF_IPSET_ID']
+ip_set_name = os.environ['WAF_IPSET_NAME']
 scope = 'REGIONAL'
 
 # Busca o IPSet atual
