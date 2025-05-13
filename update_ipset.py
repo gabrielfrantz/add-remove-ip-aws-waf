@@ -4,11 +4,12 @@ import sys
 
 ip_address = sys.argv[1]  # Recebe IP via CLI
 action = sys.argv[2]      # add ou remove
+region_name=os.environ['AWS_REGION'] # Use sua região
 
-waf = boto3.client('wafv2', region_name='us-east-1')  # Use sua região
-ip_set_id = os.environ['WAF_IPSET_ID']
-ip_set_name = os.environ['WAF_IPSET_NAME']
-scope = 'REGIONAL'  # Ou CLOUDFRONT
+waf = boto3.client('wafv2', region_name)  
+ip_set_id = os.environ['AWS_WAF_IPSET_ID']
+ip_set_name = os.environ['AWS_WAF_IPSET_NAME']
+scope = 'REGIONAL'
 
 # Busca o IPSet atual
 response = waf.get_ip_set(Name=ip_set_name, Scope=scope, Id=ip_set_id)
