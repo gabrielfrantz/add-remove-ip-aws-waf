@@ -16,6 +16,31 @@ permissions:
   contents: read
 
 jobs:
+  list-ips:
+    runs-on: ubuntu-24.04
+    environment: development
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_WAF }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Instala dependências
+        run: |
+          pip install -r requirements.txt
+
+      - name: Lista os IPs cadastrados na rule do WAF
+        env:
+          AWS_WAF_IPSET_ID: ${{ secrets.AWS_WAF_IPSET_ID }}
+          AWS_WAF_IPSET_NAME: ${{ secrets.AWS_WAF_IPSET_NAME }}
+        run: |
+          python list_ips.py "${{ github.event.inputs.ip_address }}" "${{ github.event.inputs.action }}"
+
   update-ip:
     runs-on: ubuntu-24.04
     environment: development
