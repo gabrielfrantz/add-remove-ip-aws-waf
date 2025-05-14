@@ -91,4 +91,4 @@ Acessar settings > environments > SEU-AMBIENTE > secrets > add environment secre
 Vá até a aba Actions do repositório e execute o workflow `Atualizar IP no WAF`
 Insira as seguintes informações:
 - `ip_address`: ex: 192.168.0.1/32 (sempre com o barramento)
-- `action`: add ou rem (`add` para adicionar um IP e `rem` para remover um IP)
+- `action`: adicionar ou remover (selecione a opção desejada)
