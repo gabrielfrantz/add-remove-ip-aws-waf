@@ -23,14 +23,14 @@ response = waf.get_ip_set(Name=ip_set_name, Scope=scope, Id=ip_set_id)
 addresses = response['IPSet']['Addresses']
 lock_token = response['LockToken']
 
-if action == "add":
+if action == "adicionar":
     if ip_cidr in addresses:
         print(f"ERRO: O IP {ip_cidr} já está cadastrado no IPSet.")
         sys.exit(1)
     addresses.append(ip_cidr)
     print(f"P {ip_cidr} adicionado com sucesso.")
 
-elif action == "rem":
+elif action == "remover":
     if ip_cidr not in addresses:
         print(f"ERRO: O IP {ip_cidr} não está presente no IPSet.")
         sys.exit(1)
