@@ -60,7 +60,7 @@ Crie manualmente via console. Anote essas informações para usar mais tarde:
 }
 ```
 
-### 3 **Criar Policy com o mínimo de acesso possível**
+### 3. **Criar Policy com o mínimo de acesso possível**
 Substitua <REGIAO>, <ACCOUNT_ID>, <NOME_DO_IPSET> e <ID_DO_IPSET>:
 ```json
 {
@@ -78,7 +78,7 @@ Substitua <REGIAO>, <ACCOUNT_ID>, <NOME_DO_IPSET> e <ID_DO_IPSET>:
 }
 ```
 
-### 4 **Criar secrets no environment do repositório**
+### 4. **Criar secrets no environment do repositório**
 Acessar settings > environments > SEU-AMBIENTE > secrets > add environment secrets:
 - `AWS_ROLE_WAF`: Colocar o valor do ARN da IAM Role criada
 - `AWS_REGION`: Colocar o valor da região do WAF criado na AWS
