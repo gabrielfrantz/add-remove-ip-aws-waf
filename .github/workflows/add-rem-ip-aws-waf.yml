@@ -7,13 +7,13 @@ on:
         description: 'IP a ser adicionado ou removido com o barramento (ex: 192.168.0.1/32)'
         required: true
       action:
-        description: 'Escolha a ação desejada'
+        description: 'Escolha a ação desejada (adicionar ou remover)'
         required: true
         type: choice
         options:
-          - add
-          - rem
-        default: add
+          - adicionar
+          - remover
+        default: adicionar
 
 permissions:
   id-token: write
