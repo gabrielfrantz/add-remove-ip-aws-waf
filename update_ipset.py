@@ -37,10 +37,6 @@ elif action == "remover":
     addresses.remove(ip_cidr)
     print(f"IP {ip_cidr} removido com sucesso.")
 
-else:
-    print("ERRO: Ação inválida. Use 'add' ou 'rem'.")
-    sys.exit(1)
-
 waf.update_ip_set(
     Name=ip_set_name,
     Scope=scope,
