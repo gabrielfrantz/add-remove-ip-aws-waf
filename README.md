@@ -5,11 +5,18 @@ Este repositório automatiza a inclusão ou remoção de endereços IP em um **I
 - **GitHub Actions**
 - **Python com Boto3**
 - **Autenticação segura via OIDC + IAM Role da AWS**
-- **Múltiplas contas da AWS**
+- **Suporte a múltiplos ambientes (dev/prod)**
 
 ---
 
-##  O que este repositório faz
+## Funcionalidades
+
+- Listar os IPs cadastrados em um IPSet
+- Adicionar um IP em formato CIDR (ex: `192.168.0.1/32`)
+- Remover um IP existente
+- Mostrar total de IPs cadastrados antes e depois da alteração
+
+##  O que cada arquivo do repositório faz
 
 ### `update_ipset.py`
 
@@ -17,6 +24,12 @@ Script em Python que:
 - Lê os IPs atuais cadastrados no IPSet do WAF.
 - Adiciona ou remove um IP conforme o parâmetro fornecido (CIDR).
 - Atualiza o IPSet com o novo conjunto de endereços.
+
+### `list_ips.py`
+
+Script em Python que:
+- Lista os IPs do IPSet
+- Exibe o **total de IPs cadastrados**
 
 ### `.github/workflows/update-waf.yml`
 
@@ -80,7 +93,7 @@ Substitua <REGIAO>, <ACCOUNT_ID>, <NOME_DO_IPSET> e <ID_DO_IPSET>:
 }
 ```
 
-### 4. **Criar secrets no environment do repositório**
+### 4. **Criar secrets para cada environment da AWS no repositório**
 Acessar settings > environments > SEU-AMBIENTE > secrets > add environment secrets:
 - `AWS_ROLE_TO_ASSUME`: Colocar o valor do ARN da IAM Role criada
 - `AWS_REGION`: Colocar o valor da região do WAF criado na AWS
