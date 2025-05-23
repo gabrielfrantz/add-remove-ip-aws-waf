@@ -3,6 +3,13 @@ name: Atualizar IP no WAF
 on:
   workflow_dispatch:
     inputs:
+      environment:
+        description: 'Selecione o ambiente'
+        type: choice
+        required: true
+        options:
+          - development
+          - production
       ip_address:
         description: 'IP a ser adicionado ou removido com o barramento (ex: 192.168.0.1/32)'
         required: true
@@ -22,7 +29,7 @@ permissions:
 jobs:
   list-ips:
     runs-on: ubuntu-24.04
-    environment: development
+    environment: ${{ github.event.inputs.environment }}
 
     steps:
       - name: Checkout
