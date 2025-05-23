@@ -27,7 +27,7 @@ permissions:
   contents: read
 
 jobs:
-  list-ips:
+  show-initial-ips:
     runs-on: ubuntu-24.04
     environment: ${{ github.event.inputs.environment }}
 
@@ -38,7 +38,7 @@ jobs:
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_WAF }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Instala dependências
@@ -47,15 +47,16 @@ jobs:
 
       - name: Lista os IPs cadastrados na rule do WAF
         env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_WAF_IPSET_ID: ${{ secrets.AWS_WAF_IPSET_ID }}
           AWS_WAF_IPSET_NAME: ${{ secrets.AWS_WAF_IPSET_NAME }}
         run: |
-          python list_ips.py "${{ github.event.inputs.ip_address }}" "${{ github.event.inputs.action }}"
+          python list_ips.py
 
-  update-ip:
-    needs: list-ips
+  update-waf-ip:
+    needs: show-initial-ips
     runs-on: ubuntu-24.04
-    environment: development
+    environment: ${{ github.event.inputs.environment }}
 
     steps:
       - name: Checkout
@@ -77,3 +78,30 @@ jobs:
           AWS_WAF_IPSET_NAME: ${{ secrets.AWS_WAF_IPSET_NAME }}
         run: |
           python update_ipset.py "${{ github.event.inputs.ip_address }}" "${{ github.event.inputs.action }}"
+
+  show-final-ips:
+    needs: update-waf-ip
+    runs-on: ubuntu-24.04
+    environment: ${{ github.event.inputs.environment }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Instala dependências
+        run: |
+          pip install -r requirements.txt
+
+      - name: Atualiza a lista dos IPs cadastrados na rule do WAF
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_WAF_IPSET_ID: ${{ secrets.AWS_WAF_IPSET_ID }}
+          AWS_WAF_IPSET_NAME: ${{ secrets.AWS_WAF_IPSET_NAME }}
+        run: |
+          python list_ips.py
