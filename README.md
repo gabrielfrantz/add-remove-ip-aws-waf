@@ -81,7 +81,7 @@ Substitua <REGIAO>, <ACCOUNT_ID>, <NOME_DO_IPSET> e <ID_DO_IPSET>:
 
 ### 4. **Criar secrets no environment do repositório**
 Acessar settings > environments > SEU-AMBIENTE > secrets > add environment secrets:
-- `AWS_ROLE_WAF`: Colocar o valor do ARN da IAM Role criada
+- `AWS_ROLE_TO_ASSUME`: Colocar o valor do ARN da IAM Role criada
 - `AWS_REGION`: Colocar o valor da região do WAF criado na AWS
 - `AWS_WAF_IPSET_ID`: Colocar o valor do ID do IP SET
 - `AWS_WAF_IPSET_NAME`: Colocar o valor do nome do IP SET
