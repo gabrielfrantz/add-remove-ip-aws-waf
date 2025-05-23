@@ -21,8 +21,9 @@ Script em Python que:
 
 Workflow do GitHub Actions que:
 - É acionado manualmente (`workflow_dispatch`) com dois inputs:
+  - `environment`: Ambiente a ser executado.
   - `ip_address`: IP que será adicionado ou removido.
-  - `action`: `add` ou `rem`.
+  - `action`: `adicionar` ou `remover`.
 - Assume uma **IAM Role na AWS via OIDC**.
 - Executa o script `update_ipset.py` com as permissões mínimas necessárias.
 
@@ -90,5 +91,6 @@ Acessar settings > environments > SEU-AMBIENTE > secrets > add environment secre
 ## Como usar
 Vá até a aba Actions do repositório e execute o workflow `Atualizar IP no WAF`
 Insira as seguintes informações:
+- `environment`: development ou production (selecione a opção desejada)
 - `ip_address`: ex: 192.168.0.1/32 (sempre com o barramento)
 - `action`: adicionar ou remover (selecione a opção desejada)
