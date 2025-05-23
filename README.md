@@ -1,10 +1,11 @@
-# Automação de Atualização de IP no AWS WAF via GitHub Actions
+# Automação de atualização de IP no AWS WAF via GitHub Actions para múltiplas contas da AWS
 
 Este repositório automatiza a inclusão ou remoção de endereços IP em um **IPSet do AWS WAF**, utilizando:
 
 - **GitHub Actions**
 - **Python com Boto3**
 - **Autenticação segura via OIDC + IAM Role da AWS**
+- **Múltiplas contas da AWS**
 
 ---
 
