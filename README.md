@@ -6,24 +6,30 @@ Este repositório automatiza a inclusão ou remoção de endereços IP em um **I
 - **Python com Boto3**
 - **Autenticação segura via OIDC + IAM Role da AWS**
 - **Suporte a múltiplos ambientes (dev/prod)**
+- **Suporte a múltiplos IPs IPv4**
 
 ---
 
 ## Funcionalidades
 
 - Listar os IPs cadastrados em um IPSet
-- Adicionar um IP em formato CIDR (ex: `192.168.0.1/32`)
-- Remover um IP existente
+- **Adicionar um ou múltiplos IPs IPv4** em formato CIDR (ex: `192.168.0.1/32`)
+- **Remover um ou múltiplos IPs IPv4** existentes
 - Mostrar total de IPs cadastrados antes e depois da alteração
+- **Validação rigorosa de IPv4** (rejeita IPv6)
+- **Relatórios detalhados** de cada operação
 
 ##  O que cada arquivo do repositório faz
 
 ### `update_ipset.py`
 
 Script em Python que:
-- Lê os IPs atuais cadastrados no IPSet do WAF.
-- Adiciona ou remove um IP conforme o parâmetro fornecido (CIDR).
-- Atualiza o IPSet com o novo conjunto de endereços.
+- Lê os IPs atuais cadastrados no IPSet do WAF
+- **Adiciona ou remove um ou múltiplos IPs IPv4** conforme parâmetros fornecidos
+- **Processa IPs separados por vírgula** em uma única operação
+- **Valida apenas endereços IPv4** (rejeita IPv6)
+- Atualiza o IPSet com o novo conjunto de endereços
+- **Relatórios informativos** sobre cada IP processado
 
 ### `list_ips.py`
 
@@ -35,11 +41,72 @@ Script em Python que:
 
 Workflow do GitHub Actions que:
 - É acionado manualmente (`workflow_dispatch`) com dois inputs:
-  - `environment`: Ambiente a ser executado.
-  - `ip_address`: IP que será adicionado ou removido.
-  - `action`: `adicionar` ou `remover`.
-- Assume uma **IAM Role na AWS via OIDC**.
-- Executa o script `update_ipset.py` com as permissões mínimas necessárias.
+  - `environment`: Ambiente a ser executado
+  - `ip_address`: **IP único ou múltiplos IPs IPv4 separados por vírgula**
+  - `action`: `adicionar` ou `remover`
+- Assume uma **IAM Role na AWS via OIDC**
+- Executa o script `update_ipset.py` com as permissões mínimas necessárias
+
+---
+
+## Exemplos de Uso
+
+### Via GitHub Actions (Recomendado)
+1. Vá até a aba **Actions** do repositório
+2. Execute o workflow `Atualizar IP no WAF`
+3. Preencha os campos:
+   - `environment`: development ou production
+   - `ip_address`: Exemplos abaixo
+   - `action`: adicionar ou remover
+
+### Exemplos de IPs para o campo `ip_address`:
+
+#### IP Único
+```
+192.168.1.1/32
+```
+
+#### Múltiplos IPs (separados por vírgula)
+```
+192.168.1.1/32,10.0.0.1/32,172.16.0.1/24
+```
+
+#### Diferentes prefixos IPv4
+```
+192.168.1.0/24,10.0.0.0/8,172.16.0.0/16,203.0.113.1/32
+```
+
+### Via Linha de Comando (Local)
+```bash
+# IP único
+python update_ipset.py "192.168.1.1/32" adicionar
+
+# Múltiplos IPs
+python update_ipset.py "192.168.1.1/32,10.0.0.1/32,172.16.0.1/24" adicionar
+
+# Remover múltiplos IPs
+python update_ipset.py "192.168.1.1/32,10.0.0.1/32" remover
+```
+
+### IPs que serão rejeitados:
+```bash
+# IPv6 (não suportado)
+2001:db8::1/128
+
+# Sem CIDR
+192.168.1.1
+
+# Prefixos inválidos para IPv4
+192.168.1.1/30
+```
+
+### Exemplo de Saída do Script:
+```
+Processando 3 IP(s): 192.168.1.1/32, 10.0.0.1/32, 172.16.0.1/24
+✅ IP 192.168.1.1/32 adicionado com sucesso.
+⚠️  O IP 10.0.0.1/32 já está cadastrado no IPSet.
+✅ IP 172.16.0.1/24 adicionado com sucesso.
+```
 
 ---
 
@@ -102,9 +169,10 @@ Acessar settings > environments > SEU-AMBIENTE > secrets > add environment secre
 
 ---
 
-## Como usar
-Vá até a aba Actions do repositório e execute o workflow `Atualizar IP no WAF`
-Insira as seguintes informações:
-- `environment`: development ou production (selecione a opção desejada)
-- `ip_address`: ex: 192.168.0.1/32 (sempre com o barramento)
-- `action`: adicionar ou remover (selecione a opção desejada)
+## 🎯 Especificações Técnicas
+
+### Endereços IPv4 Suportados
+- **Formato**: Apenas IPv4 com notação CIDR
+- **Prefixos válidos**: `/8`, `/16`, `/24`, `/32`
+- **Múltiplos IPs**: Separados por vírgula (sem espaços extras)
+- **IPv6**: ❌ Não suportado (será rejeitado)
