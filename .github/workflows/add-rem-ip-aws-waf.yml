@@ -11,7 +11,7 @@ on:
           - development
           - production
       ip_address:
-        description: 'IP a ser adicionado ou removido com o barramento (ex: 192.168.0.1/32)'
+        description: 'IPs a serem adicionados ou removidos (ex: 192.168.0.1/32 ou 192.168.0.1/32,192.168.0.2/32)'
         required: true
       action:
         description: 'Escolha a ação desejada (adicionar ou remover)'
