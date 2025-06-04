@@ -45,12 +45,12 @@ malicious_list_name = os.environ.get('AWS_WAF_MALICIOUS_LIST_NAME')
 waf = boto3.client('wafv2', region_name=region_name)
 
 if action == "adicionar" and malicious_list_id and malicious_list_name:
-    malicious_list_response = waf.get_ip_set(Name=malicious_list_name, Scope=scope, Id=malicious_list_id)
-    malicious_list_addresses = set(malicious_list_response['IPSet']['Addresses'])
+    response = waf.get_ip_set(Name=malicious_list_name, Scope=scope, Id=malicious_list_id)
+    malicious_list_addresses = set(response['IPSet']['Addresses'])
 
     for ip in valid_ips:
         if ip in malicious_list_addresses:
-            print(f"❌ ERRO: O IP {ip} está presente no IPSet de MaliciousIPList ({malicious_list_name}) e não pode ser adicionado.")
+            print(f"❌ ERRO: O IP {ip} está presente no IPSet ({malicious_list_name}) e não pode ser adicionado.")
             sys.exit(1)
 
 response = waf.get_ip_set(Name=country_exceptions_list_name, Scope=scope, Id=country_exceptions_list_id)
