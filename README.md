@@ -132,8 +132,8 @@ Substitua <REGIAO>, <ACCOUNT_ID>, <NOME_DO_IPSET_EXCEPTION>, <ID_DO_IPSET_EXCEPT
         "wafv2:UpdateIPSet"
       ],
       "Resource": [
-        "arn:aws:wafv2:us-east-1:655057897630:regional/ipset/<NOME_DO_IPSET_EXCEPTION>/<ID_DO_IPSET_EXCEPTION>",
-        "arn:aws:wafv2:us-east-1:655057897630:regional/ipset/<NOME_DO_IPSET_BLOCK>/<ID_DO_IPSET_BLOCK>"
+        "arn:aws:wafv2:<REGIAO>:<ACCOUNT_ID>:regional/ipset/<NOME_DO_IPSET_EXCEPTION>/<ID_DO_IPSET_EXCEPTION>",
+        "arn:aws:wafv2:<REGIAO>:<ACCOUNT_ID>:regional/ipset/<NOME_DO_IPSET_BLOCK>/<ID_DO_IPSET_BLOCK>"
       ]
     }
   ]
