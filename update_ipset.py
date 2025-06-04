@@ -36,8 +36,8 @@ print(f"Processando {len(valid_ips)} IP(s): {', '.join(valid_ips)}")
 region_name = os.environ['AWS_REGION']
 scope = 'REGIONAL'
 
-country_exceptions_list_id = os.environ['AWS_WAF_IPSET_ID']
-country_exceptions_list_name = os.environ['AWS_WAF_IPSET_NAME']
+country_exceptions_list_id = os.environ['AWS_WAF_COUNTRY_EXCEPTIONS_LIST_ID']
+country_exceptions_list_name = os.environ['AWS_WAF_COUNTRY_EXCEPTIONS_LIST_NAME']
 
 malicious_list_id = os.environ.get('AWS_WAF_MALICIOUS_LIST_ID')
 malicious_list_name = os.environ.get('AWS_WAF_MALICIOUS_LIST_NAME')
@@ -50,7 +50,7 @@ if action == "adicionar" and malicious_list_id and malicious_list_name:
 
     for ip in valid_ips:
         if ip in malicious_list_addresses:
-            print(f"❌ ERRO: O IP {ip} está presente na MaliciousIPList ({malicious_list_name}) e não pode ser adicionado.")
+            print(f"❌ ERRO: O IP {ip} está presente no IPSet de MaliciousIPList ({malicious_list_name}) e não pode ser adicionado.")
             sys.exit(1)
 
 response = waf.get_country_exceptions_list(Name=country_exceptions_list_name, Scope=scope, Id=country_exceptions_list_id)
@@ -64,7 +64,7 @@ if action == "adicionar":
     for ip_cidr in valid_ips:
         if ip_cidr in addresses:
             existing_ips.append(ip_cidr)
-            print(f"⚠️ O IP {ip_cidr} já está cadastrado no IPSet.")
+            print(f"⚠️ O IP {ip_cidr} já está cadastrado no IPSet CountryExceptionsIPList.")
         else:
             addresses.append(ip_cidr)
             added_ips.append(ip_cidr)
@@ -81,7 +81,7 @@ elif action == "remover":
     for ip_cidr in valid_ips:
         if ip_cidr not in addresses:
             not_found_ips.append(ip_cidr)
-            print(f"⚠️ O IP {ip_cidr} não está presente no IPSet.")
+            print(f"⚠️ O IP {ip_cidr} não está presente no IPSet CountryExceptionsIPList.")
         else:
             addresses.remove(ip_cidr)
             removed_ips.append(ip_cidr)
