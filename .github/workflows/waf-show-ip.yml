@@ -16,7 +16,7 @@ permissions:
   contents: read
 
 jobs:
-  show-final-ips:
+  show-ips:
     runs-on: ubuntu-24.04
     environment: ${{ github.event.inputs.environment }}
 
