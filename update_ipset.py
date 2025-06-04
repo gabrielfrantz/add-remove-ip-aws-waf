@@ -47,14 +47,12 @@ waf = boto3.client('wafv2', region_name=region_name)
 if action == "adicionar" and malicious_list_id and malicious_list_name:
     response = waf.get_ip_set(Name=malicious_list_name, Scope=scope, Id=malicious_list_id)
     malicious_list_addresses = set(response['IPSet']['Addresses'])
+    malicious_blocked_set = set(malicious_list_addresses)
 
     for ip in valid_ips:
-        ip_obj = ipaddress.ip_network(ip, strict=False)
-        for blocked in malicious_list_addresses:
-            blocked_net = ipaddress.ip_network(blocked, strict=False)
-            if ip_obj.subnet_of(blocked_net) or ip_obj.overlaps(blocked_net):
-                print(f"❌ ERRO: O IP {ip} está presente no IPSet ({malicious_list_name}) e não pode ser adicionado.")
-                sys.exit(1)
+        if ip in malicious_blocked_set:
+            print(f"❌ ERRO: O IP {ip} está presente no IPSet ({malicious_list_name}) e não pode ser adicionado.")
+            sys.exit(1)
 
 response = waf.get_ip_set(Name=country_exceptions_list_name, Scope=scope, Id=country_exceptions_list_id)
 addresses = response['IPSet']['Addresses']
