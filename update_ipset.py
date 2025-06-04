@@ -91,7 +91,7 @@ elif action == "remover":
         print("ℹ️ Nenhum IP foi removido.")
         sys.exit(0)
 
-waf.update_country_exceptions_list(
+waf.update_ip_set(
     Name=country_exceptions_list_name,
     Scope=scope,
     Id=country_exceptions_list_id,
