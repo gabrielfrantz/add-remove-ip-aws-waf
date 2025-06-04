@@ -76,30 +76,6 @@ Workflow do GitHub Actions que:
 192.168.1.0/24,10.0.0.0/8,172.16.0.0/16,203.0.113.1/32
 ```
 
-### Via Linha de Comando (Local)
-```bash
-# IP único
-python update_ipset.py "192.168.1.1/32" adicionar
-
-# Múltiplos IPs
-python update_ipset.py "192.168.1.1/32,10.0.0.1/32,172.16.0.1/24" adicionar
-
-# Remover múltiplos IPs
-python update_ipset.py "192.168.1.1/32,10.0.0.1/32" remover
-```
-
-### IPs que serão rejeitados:
-```bash
-# IPv6 (não suportado)
-2001:db8::1/128
-
-# Sem CIDR
-192.168.1.1
-
-# Prefixos inválidos para IPv4
-192.168.1.1/30
-```
-
 ### Exemplo de Saída do Script:
 ```
 Processando 3 IP(s): 192.168.1.1/32, 10.0.0.1/32, 172.16.0.1/24
@@ -164,8 +140,11 @@ Substitua <REGIAO>, <ACCOUNT_ID>, <NOME_DO_IPSET> e <ID_DO_IPSET>:
 Acessar settings > environments > SEU-AMBIENTE > secrets > add environment secrets:
 - `AWS_ROLE_TO_ASSUME`: Colocar o valor do ARN da IAM Role criada
 - `AWS_REGION`: Colocar o valor da região do WAF criado na AWS
-- `AWS_WAF_IPSET_ID`: Colocar o valor do ID do IP SET
-- `AWS_WAF_IPSET_NAME`: Colocar o valor do nome do IP SET
+- `AWS_WAF_COUNTRY_EXCEPTIONS_LIST_ID`: Colocar o valor do ID do IP SET de exceptions
+- `AWS_WAF_COUNTRY_EXCEPTIONS_LIST_NAME`: Colocar o valor do nome do IP SET de exceptions
+- `AWS_WAF_MALICIOUS_LIST_ID`: Colocar o valor do ID do IP SET de malicious
+- `AWS_WAF_MALICIOUS_LIST_NAME`: Colocar o valor do nome do IP SET de malicious
+
 
 ---
 
@@ -173,6 +152,6 @@ Acessar settings > environments > SEU-AMBIENTE > secrets > add environment secre
 
 ### Endereços IPv4 Suportados
 - **Formato**: Apenas IPv4 com notação CIDR
-- **Prefixos válidos**: `/8`, `/16`, `/24`, `/32`
+- **Prefixos válidos**: `/1` até `/32`
 - **Múltiplos IPs**: Separados por vírgula (sem espaços extras)
 - **IPv6**: ❌ Não suportado (será rejeitado)
