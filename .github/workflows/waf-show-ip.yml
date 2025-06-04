@@ -1,4 +1,4 @@
-name: Atualizar IP no WAF
+name: Mostrar os IPs do WAF
 
 on:
   workflow_dispatch:
@@ -34,7 +34,7 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Atualiza a lista dos IPs cadastrados na rule do WAF
+      - name: Lista os IPs cadastrados
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_WAF_COUNTRY_EXCEPTIONS_LIST_ID: ${{ secrets.AWS_WAF_COUNTRY_EXCEPTIONS_LIST_ID }}
