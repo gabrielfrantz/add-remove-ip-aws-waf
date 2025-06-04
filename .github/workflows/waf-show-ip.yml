@@ -37,7 +37,7 @@ jobs:
       - name: Lista os IPs cadastrados
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
-          AWS_WAF_WAF_EXCEPTIONS_LIST_ID: ${{ secrets.AWS_WAF_EXCEPTIONS_LIST_ID }}
-          AWS_WAF_WAF_EXCEPTIONS_LIST_NAME: ${{ secrets.AWS_WAF_EXCEPTIONS_LIST_NAME }}
+          AWS_WAF_EXCEPTIONS_LIST_ID: ${{ secrets.AWS_WAF_EXCEPTIONS_LIST_ID }}
+          AWS_WAF_EXCEPTIONS_LIST_NAME: ${{ secrets.AWS_WAF_EXCEPTIONS_LIST_NAME }}
         run: |
           python list_ips.py
