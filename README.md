@@ -17,6 +17,7 @@ Este repositório automatiza a inclusão ou remoção de endereços IP em um **I
 - **Remover um ou múltiplos IPs IPv4** existentes
 - Mostrar total de IPs cadastrados antes e depois da alteração
 - **Validação rigorosa de IPv4** (rejeita IPv6)
+- **Validação rigorosa de BlackList** (conforme IPSet configurado)
 - **Relatórios detalhados** de cada operação
 
 ##  O que cada arquivo do repositório faz
@@ -37,7 +38,7 @@ Script em Python que:
 - Lista os IPs do IPSet
 - Exibe o **total de IPs cadastrados**
 
-### `.github/workflows/update-waf.yml`
+### `.github/workflows/add-rem-ip-aws-waf.yml`
 
 Workflow do GitHub Actions que:
 - É acionado manualmente (`workflow_dispatch`) com dois inputs:
@@ -119,7 +120,7 @@ Crie manualmente via console. Anote essas informações para usar mais tarde:
 ```
 
 ### 3. **Criar Policy com o mínimo de acesso possível**
-Substitua <REGIAO>, <ACCOUNT_ID>, <NOME_DO_IPSET> e <ID_DO_IPSET>:
+Substitua <REGIAO>, <ACCOUNT_ID>, <NOME_DO_IPSET_EXCEPTION>, <ID_DO_IPSET_EXCEPTION>,<NOME_DO_IPSET_BLOCK>, <ID_DO_IPSET_BLOCK>:
 ```json
 {
   "Version": "2012-10-17",
@@ -130,7 +131,10 @@ Substitua <REGIAO>, <ACCOUNT_ID>, <NOME_DO_IPSET> e <ID_DO_IPSET>:
         "wafv2:GetIPSet",
         "wafv2:UpdateIPSet"
       ],
-      "Resource": "arn:aws:wafv2:<REGIAO>:<ACCOUNT_ID>:regional/ipset/<NOME_DO_IPSET>/<ID_DO_IPSET>"
+      "Resource": [
+        "arn:aws:wafv2:us-east-1:655057897630:regional/ipset/<NOME_DO_IPSET_EXCEPTION>/<ID_DO_IPSET_EXCEPTION>",
+        "arn:aws:wafv2:us-east-1:655057897630:regional/ipset/<NOME_DO_IPSET_BLOCK>/<ID_DO_IPSET_BLOCK>"
+      ]
     }
   ]
 }
@@ -144,7 +148,6 @@ Acessar settings > environments > SEU-AMBIENTE > secrets > add environment secre
 - `AWS_WAF_COUNTRY_EXCEPTIONS_LIST_NAME`: Colocar o valor do nome do IP SET de exceptions
 - `AWS_WAF_MALICIOUS_LIST_ID`: Colocar o valor do ID do IP SET de malicious
 - `AWS_WAF_MALICIOUS_LIST_NAME`: Colocar o valor do nome do IP SET de malicious
-
 
 ---
 
