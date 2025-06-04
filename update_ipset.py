@@ -73,7 +73,7 @@ if action == "adicionar":
     
     if not added_ips:
         print("ℹ️ Nenhum IP novo foi adicionado.")
-        sys.exit(0)
+        sys.exit(1)
 
 elif action == "remover":
     removed_ips = []
@@ -90,7 +90,7 @@ elif action == "remover":
     
     if not removed_ips:
         print("ℹ️ Nenhum IP foi removido.")
-        sys.exit(0)
+        sys.exit(1)
 
 waf.update_ip_set(
     Name=country_exceptions_list_name,
