@@ -51,7 +51,7 @@ if action == "adicionar" and malicious_list_id and malicious_list_name:
 
     for ip in valid_ips:
         if ip in malicious_blocked_set:
-            print(f"❌ ERRO: O IP {ip} está presente no IPSet MaliciousIPList e não pode ser adicionado.")
+            print(f"❌ ERRO: O IP {ip} está presente no IPSet de IPs maliciosos e não pode ser adicionado.")
             sys.exit(1)
 
 response = waf.get_ip_set(Name=waf_exceptions_list_name, Scope=scope, Id=waf_exceptions_list_id)
