@@ -1,4 +1,4 @@
-name: Mostrar os IPs do WAF
+name: Mostrar IPs do WAF
 
 on:
   workflow_dispatch:
