@@ -143,8 +143,8 @@ Substitua <REGIAO>, <ACCOUNT_ID>, <NOME_DO_IPSET_EXCEPTION>, <ID_DO_IPSET_EXCEPT
 Acessar settings > environments > SEU-AMBIENTE > secrets > add environment secrets:
 - `AWS_ROLE_TO_ASSUME`: Colocar o valor do ARN da IAM Role criada
 - `AWS_REGION`: Colocar o valor da região do WAF criado na AWS
-- `AWS_WAF_COUNTRY_EXCEPTIONS_LIST_ID`: Colocar o valor do ID do IP SET de exceptions
-- `AWS_WAF_COUNTRY_EXCEPTIONS_LIST_NAME`: Colocar o valor do nome do IP SET de exceptions
+- `AWS_WAF_EXCEPTIONS_LIST_ID`: Colocar o valor do ID do IP SET de exceptions
+- `AWS_WAF_EXCEPTIONS_LIST_NAME`: Colocar o valor do nome do IP SET de exceptions
 - `AWS_WAF_MALICIOUS_LIST_ID`: Colocar o valor do ID do IP SET de malicious
 - `AWS_WAF_MALICIOUS_LIST_NAME`: Colocar o valor do nome do IP SET de malicious
 

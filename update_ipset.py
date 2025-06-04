@@ -36,8 +36,8 @@ print(f"Processando {len(valid_ips)} IP(s): {', '.join(valid_ips)}")
 region_name = os.environ['AWS_REGION']
 scope = 'REGIONAL'
 
-country_exceptions_list_id = os.environ['AWS_WAF_COUNTRY_EXCEPTIONS_LIST_ID']
-country_exceptions_list_name = os.environ['AWS_WAF_COUNTRY_EXCEPTIONS_LIST_NAME']
+waf_exceptions_list_id = os.environ['AWS_WAF_EXCEPTIONS_LIST_ID']
+waf_exceptions_list_name = os.environ['AWS_WAF_EXCEPTIONS_LIST_NAME']
 
 malicious_list_id = os.environ.get('AWS_WAF_MALICIOUS_LIST_ID')
 malicious_list_name = os.environ.get('AWS_WAF_MALICIOUS_LIST_NAME')
@@ -54,7 +54,7 @@ if action == "adicionar" and malicious_list_id and malicious_list_name:
             print(f"❌ ERRO: O IP {ip} está presente no IPSet MaliciousIPList e não pode ser adicionado.")
             sys.exit(1)
 
-response = waf.get_ip_set(Name=country_exceptions_list_name, Scope=scope, Id=country_exceptions_list_id)
+response = waf.get_ip_set(Name=waf_exceptions_list_name, Scope=scope, Id=waf_exceptions_list_id)
 addresses = response['IPSet']['Addresses']
 lock_token = response['LockToken']
 
@@ -65,7 +65,7 @@ if action == "adicionar":
     for ip_cidr in valid_ips:
         if ip_cidr in addresses:
             existing_ips.append(ip_cidr)
-            print(f"⚠️ O IP {ip_cidr} já está cadastrado no IPSet CountryExceptionsIPList.")
+            print(f"⚠️ O IP {ip_cidr} já está cadastrado no IPSet.")
         else:
             addresses.append(ip_cidr)
             added_ips.append(ip_cidr)
@@ -82,7 +82,7 @@ elif action == "remover":
     for ip_cidr in valid_ips:
         if ip_cidr not in addresses:
             not_found_ips.append(ip_cidr)
-            print(f"⚠️ O IP {ip_cidr} não está presente no IPSet CountryExceptionsIPList.")
+            print(f"⚠️ O IP {ip_cidr} não está presente no IPSet.")
         else:
             addresses.remove(ip_cidr)
             removed_ips.append(ip_cidr)
@@ -93,9 +93,9 @@ elif action == "remover":
         sys.exit(1)
 
 waf.update_ip_set(
-    Name=country_exceptions_list_name,
+    Name=waf_exceptions_list_name,
     Scope=scope,
-    Id=country_exceptions_list_id,
+    Id=waf_exceptions_list_id,
     Addresses=addresses,
     LockToken=lock_token
 )
