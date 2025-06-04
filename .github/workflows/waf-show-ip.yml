@@ -16,7 +16,7 @@ permissions:
   contents: read
 
 jobs:
-  show-ips:
+  waf-show-ip:
     runs-on: ubuntu-24.04
     environment: ${{ github.event.inputs.environment }}
 
