@@ -12,10 +12,8 @@ Este repositório automatiza a inclusão ou remoção de endereços IP em um **I
 
 ## Funcionalidades
 
-- Listar os IPs cadastrados em um IPSet
 - **Adicionar um ou múltiplos IPs IPv4** em formato CIDR (ex: `192.168.0.1/32`)
 - **Remover um ou múltiplos IPs IPv4** existentes
-- Mostrar total de IPs cadastrados antes e depois da alteração
 - **Validação rigorosa de IPv4** (rejeita IPv6)
 - **Validação rigorosa de BlackList** (conforme IPSet configurado)
 - **Relatórios detalhados** de cada operação
@@ -37,8 +35,9 @@ Script em Python que:
 Script em Python que:
 - Lista os IPs do IPSet
 - Exibe o **total de IPs cadastrados**
+- Uso opcional
 
-### `.github/workflows/add-rem-ip-aws-waf.yml`
+### `.github/workflows/waf-manage-ip.yml`
 
 Workflow do GitHub Actions que:
 - É acionado manualmente (`workflow_dispatch`) com dois inputs:
@@ -54,7 +53,7 @@ Workflow do GitHub Actions que:
 
 ### Via GitHub Actions (Recomendado)
 1. Vá até a aba **Actions** do repositório
-2. Execute o workflow `Atualizar IP no WAF`
+2. Execute o workflow `Gerenciar IPs no WAF`
 3. Preencha os campos:
    - `environment`: development ou production
    - `ip_address`: Exemplos abaixo
@@ -111,7 +110,7 @@ Crie manualmente via console. Anote essas informações para usar mais tarde:
       "Condition": {
         "StringEquals": {
           "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
-          "token.actions.githubusercontent.com:sub": "repo:USUARIO/REPOSITORIO:ENVIRONMENT"
+          "token.actions.githubusercontent.com:sub": "repo:USUARIOOUORGANIZACAO/REPOSITORIO:environment:AMBIENTE"
         }
       }
     }
